@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mongodb-server:
+    container_name: mongodb-server
+    image: mongo
+  node-server:
+    container_name: node-server
+    build: ./server
+    volumes:
+      - /usr/app/node_modules
+      - ./server:/usr/app
+    ports:
+      - '5050:5050'
+    depends_on:
+      - mongodb-server
+  nginx-server:
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
